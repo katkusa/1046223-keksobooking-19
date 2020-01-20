@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Екатерина Куса](https://up.htmlacademy.ru/javascript/19/user/1046223).
-* Наставник: `Неизвестно`.
+* Студент: [Екатерина Куса](https://htmlacademy.ru/profile/id1046223).
+* Наставник: [Артем Рудов] (https://htmlacademy.ru/profile/artrudov).
 
 ---
 
