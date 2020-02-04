@@ -1,7 +1,5 @@
 'use strict';
 
-var MAP_ELEMENT = document.querySelector('.map');
-var MAIN_PIN = document.querySelector('.map__pin--main');
 var APARTMENTS_TITLE = [
   'Роскошные апартаменты',
   'Квартира в самом центре',
@@ -27,11 +25,31 @@ var APARTMENTS_DESCRIPTION = [
   'Ничего лишнего - жилая комната, туалет и душ, а кухню можете оборудовать сами. За ваш счет разумеется!'
 ];
 var TOTAL_AMOUNT_ARRAY = 8;
-var MIN_COORDINATE_Y = 130;
-var MAX_COORDINATE_Y = 630;
-var TOTAL_HEIGHT = MAX_COORDINATE_Y - MIN_COORDINATE_Y - MAIN_PIN.offsetHeight;
-var TOTAL_WIDTH = MAP_ELEMENT.offsetWidth - MAIN_PIN.offsetWidth;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
+var MAP_WIDTH = 1200;
+var coordinateY = {
+  MIN: 130,
+  MAX: 630
+};
+var addressCounter = {
+  MAX1: 300,
+  MAX2: 1111
+};
+var priceCounter = {
+  MIN: 200,
+  MAX: 10000
+};
+var roomsCounter = {
+  MIN: 1,
+  MAX: 15
+};
+var guestsCounter = {
+  MIN: 1,
+  MAX: 10
+};
 
+var mapElement = document.querySelector('.map');
 var mapListElement = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin')
   .content
@@ -39,42 +57,37 @@ var mapPinTemplate = document.querySelector('#pin')
 var fragment = document.createDocumentFragment();
 
 var getRandomNumber = function (min, max) {
-  return Math.floor(Math.random() * max) + min;
-};
-
-var getRandom = function (max) {
-  return Math.floor(Math.random() * Math.floor(max));
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
 var getOffer = function (pinNumber) {
-  var pin = {
+  return {
     author: {
       avatar: 'img/avatars/user0' + (pinNumber + 1) + '.png'
     },
     offer: {
-      title: APARTMENTS_TITLE[getRandom(APARTMENTS_TITLE.length - 1)],
-      address: getRandomNumber(0, 300) + ',' + getRandomNumber(0, 1009),
-      price: getRandomNumber(200, 10000),
-      type: APARTMENTS_TYPE[getRandom(APARTMENTS_TYPE.length - 1)],
-      rooms: getRandomNumber(1, 15),
-      guests: getRandomNumber(1, 10),
-      checkin: APARTMENTS_CHECKIN[getRandom(APARTMENTS_CHECKIN.length - 1)],
-      checkout: APARTMENTS_CHECKOUT[getRandom(APARTMENTS_CHECKOUT.length - 1)],
-      features: getRandom(APARTMENTS_FEATURES, APARTMENTS_FEATURES.length - 1),
-      description: APARTMENTS_DESCRIPTION[getRandom(APARTMENTS_DESCRIPTION.length - 1)],
+      title: APARTMENTS_TITLE[getRandomNumber(APARTMENTS_TITLE.length)],
+      address: getRandomNumber(0, addressCounter.MAX1) + ',' + getRandomNumber(0, addressCounter.MAX2),
+      price: getRandomNumber(priceCounter.MIN, priceCounter.MAX),
+      type: APARTMENTS_TYPE[getRandomNumber(APARTMENTS_TYPE.length)],
+      rooms: getRandomNumber(roomsCounter.MIN, roomsCounter.MAX),
+      guests: getRandomNumber(guestsCounter.MIN, guestsCounter.MAX),
+      checkin: APARTMENTS_CHECKIN[getRandomNumber(APARTMENTS_CHECKIN.length)],
+      checkout: APARTMENTS_CHECKOUT[getRandomNumber(APARTMENTS_CHECKOUT.length)],
+      features: getRandomNumber(APARTMENTS_FEATURES, APARTMENTS_FEATURES.length),
+      description: APARTMENTS_DESCRIPTION[getRandomNumber(APARTMENTS_DESCRIPTION.length)],
       photos: 'http://o0.github.io/assets/images/tokyo/hotel' + (pinNumber + 1) + '.jpg',
       location: {
-        x: getRandom(TOTAL_WIDTH) + 'px',
-        y: getRandom(TOTAL_HEIGHT) + MIN_COORDINATE_Y + 'px'
+        x: getRandomNumber(0, MAP_WIDTH) - PIN_WIDTH / 2 + 'px',
+        y: getRandomNumber(coordinateY.MIN, coordinateY.MAX) - PIN_HEIGHT + 'px'
       }
     }
   };
-
-  return pin;
 };
 
 var getOffers = function () {
   var offers = [];
+
   for (var i = 0; i < TOTAL_AMOUNT_ARRAY; i++) {
     offers.push(getOffer(i));
   }
@@ -101,4 +114,4 @@ for (var i = 0; i < TOTAL_AMOUNT_ARRAY; i++) {
 }
 mapListElement.appendChild(fragment);
 
-MAP_ELEMENT.classList.remove('map--faded');
+mapElement.classList.remove('map--faded');
