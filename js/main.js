@@ -80,6 +80,7 @@ var HouseType = {
   HOUSE: 'Дом'
 };
 var ENTER_KEY = 'Enter';
+var LEFT_BUTTON = 0;
 var ROOMS_CAPACITY = {
   1: [1],
   2: [2, 1],
@@ -89,7 +90,8 @@ var ROOMS_CAPACITY = {
 var MAIN_PIN_SIZE = 65;
 var MAIN_PIN_SIZE_MARK = 22;
 
-var mapElement = document.querySelector('.map');
+var offers = [];
+var map = document.querySelector('.map');
 var mapPinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -98,12 +100,12 @@ var mapPinMain = mapPins.querySelector('.map__pin--main');
 var mapCardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
-var mapFiltersContainer = mapElement.querySelector('.map__filters-container');
+var mapFiltersContainer = map.querySelector('.map__filters-container');
 var fragment = document.createDocumentFragment();
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = document.querySelectorAll('fieldset');
 var mapFilters = document.querySelector('.map__filters');
-var mapFiltersElements = mapFilters.children;
+var mapFiltersChildren = mapFilters.children;
 var addressInput = adForm.querySelector('#address');
 var roomNumber = adForm.querySelector('#room_number');
 var capacity = adForm.querySelector('#capacity');
@@ -128,26 +130,26 @@ var getRandomArray = function (array) {
 };
 
 var insertActiveMode = function () {
-  mapElement.classList.remove('map--faded');
+  map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  mapElement.appendChild(placeOffers(offers));
-  mapElement.insertBefore(fragment.appendChild(renderCard(offers[0])), mapFiltersContainer);
+  renderAllPins();
+  map.insertBefore(fragment.appendChild(renderCard(offers[0])), mapFiltersContainer);
   removeAttribute(adFormFieldsets, 'disabled', 'disabled');
-  removeAttribute(mapFiltersElements, 'disabled', 'disabled');
+  removeAttribute(mapFiltersChildren, 'disabled', 'disabled');
   roomsToCapacity();
   inputAddressCoordinates(true);
   roomNumber.addEventListener('change', roomNumberChangeHandler, true);
 };
 
-var removeAttribute = function (array, string, value) {
-  for (var i = 0; i < array.length; i++) {
-    array[i].removeAttribute(string, value);
+var removeAttribute = function (obj, string, value) {
+  for (var i = 0; i < obj.length; i++) {
+    obj[i].removeAttribute(string, value);
   }
 };
 
-var setAttribute = function (array, string, value) {
-  for (var i = 0; i < array.length; i++) {
-    array[i].setAttribute(string, value);
+var setAttribute = function (obj, string, value) {
+  for (var i = 0; i < obj.length; i++) {
+    obj[i].setAttribute(string, value);
   }
 };
 
@@ -185,7 +187,7 @@ var roomNumberChangeHandler = function () {
 };
 
 var mapPinMainMousedownHandler = function (evt) {
-  if (evt.button === 0) {
+  if (evt.button === LEFT_BUTTON) {
     insertActiveMode();
     mapPinMain.removeEventListener('mousedown', mapPinMainMousedownHandler);
     mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
@@ -248,15 +250,9 @@ var getOffer = function () {
   };
 };
 
-var getOffers = function () {
-  var offers = [];
-
-  for (var i = 0; i < TOTAL_AMOUNT_ARRAY; i++) {
-    offers.push(getOffer(i + 1));
-  }
-
-  return offers;
-};
+for (var i = 0; i < TOTAL_AMOUNT_ARRAY; i++) {
+  offers.push(getOffer(i + 1));
+}
 
 var renderPin = function (pinData) {
   var pinElement = mapPinTemplate.cloneNode(true);
@@ -267,7 +263,7 @@ var renderPin = function (pinData) {
   pinImgElement.src = pinData.author.avatar;
   pinImgElement.alt = pinData.offer.title;
 
-  return pinElement;
+  fragment.appendChild(pinElement);
 };
 
 var renderCard = function (pinData) {
@@ -289,19 +285,17 @@ var renderCard = function (pinData) {
   return cardElement;
 };
 
-var placeOffers = function () {
+var renderAllPins = function () {
 
-  for (var i = 0; i < offers.length; i++) {
-    fragment.appendChild(renderPin(offers[i]));
+  for (var k = 0; k < TOTAL_AMOUNT_ARRAY; k++) {
+    renderPin(offers[k]);
   }
 
-  return fragment;
+  mapPins.appendChild(fragment);
 };
 
-var offers = getOffers();
-
 setAttribute(adFormFieldsets, 'disabled', 'disabled');
-setAttribute(mapFiltersElements, 'disabled', 'disabled');
+setAttribute(mapFiltersChildren, 'disabled', 'disabled');
 
 mapPinMain.addEventListener('mousedown', mapPinMainMousedownHandler);
 mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
