@@ -35,11 +35,15 @@
   };
 
   window.utils = {
-    getRandomNumber: getRandomNumber,
-    getRandomElement: getRandomElement,
-    getRandomArray: getRandomArray,
-    setAttribute: setAttribute,
-    removeAttribute: removeAttribute,
+    getRandom: {
+      number: getRandomNumber,
+      element: getRandomElement,
+      array: getRandomArray
+    },
+    getAttribute: {
+      set: setAttribute,
+      remove: removeAttribute
+    },
     keys: {
       enter: ENTER_KEY,
       escape: ESC_KEY,

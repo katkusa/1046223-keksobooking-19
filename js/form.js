@@ -12,10 +12,10 @@
     100: [0]
   };
   var HouseTypePrice = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
   };
 
   var adFormFieldsets = document.querySelectorAll('fieldset');
@@ -59,7 +59,7 @@
   inputAddressCoordinates();
 
   var roomsToCapacity = function () {
-    window.utils.setAttribute(capacityOptions, 'disabled', 'disabled');
+    window.utils.getAttribute.set(capacityOptions, 'disabled', 'disabled');
     var allowCapacity = ROOMS_CAPACITY[roomNumber.value];
     for (var i = 0; i < allowCapacity.length; i++) {
       var element = capacity.querySelector('option[value=\"' + allowCapacity[i] + '\"]');
@@ -71,8 +71,8 @@
   roomsToCapacity();
 
   var getMinPrice = function () {
-    priceInput.setAttribute('min', HouseTypePrice[type.value]);
-    priceInput.setAttribute('placeholder', HouseTypePrice[type.value]);
+    priceInput.setAttribute('min', HouseTypePrice[type.value.toUpperCase()]);
+    priceInput.setAttribute('placeholder', HouseTypePrice[type.value.toUpperCase()]);
     priceInput.setAttribute('max', MAX_PRICE);
   };
 
@@ -85,6 +85,17 @@
   };
 
   getMinPrice();
+
+  var getRequirementsTitle = function () {
+    formTitle.setAttribute('minlength', MIN_TITLE_LENGTH);
+    formTitle.setAttribute('maxlength', MAX_TITLE_LENGTH);
+    formTitle.setAttribute('required', true);
+  };
+
+  var getRequirementsImage = function () {
+    formAvatar.setAttribute('accept', 'image/png, image/jpeg');
+    formImages.setAttribute('accept', 'image/png, image/jpeg');
+  };
 
   var adFormChangeHandler = function (evt) {
     switch (evt.target) {
@@ -100,18 +111,16 @@
       case timeout:
         timeoutToTimein();
         break;
+      case formTitle:
+        getRequirementsTitle();
+        break;
+      case formImages:
+        getRequirementsImage();
+        break;
+      case formAvatar:
+        getRequirementsImage();
+        break;
     }
-  };
-
-  var getRequirementsTitle = function () {
-    formTitle.setAttribute('minlength', MIN_TITLE_LENGTH);
-    formTitle.setAttribute('maxlength', MAX_TITLE_LENGTH);
-    formTitle.setAttribute('required', true);
-  };
-
-  var getRequirementsImage = function () {
-    formAvatar.setAttribute('accept', 'image/png, image/jpeg');
-    formImages.setAttribute('accept', 'image/png, image/jpeg');
   };
 
   var resetForm = function () {
@@ -137,16 +146,12 @@
     resetForm();
   });
 
-  window.utils.setAttribute(adFormFieldsets, 'disabled', 'disabled');
-  window.utils.setAttribute(mapFiltersChildren, 'disabled', 'disabled');
+  window.utils.getAttribute.set(adFormFieldsets, 'disabled', 'disabled');
+  window.utils.getAttribute.set(mapFiltersChildren, 'disabled', 'disabled');
 
   window.form = {
     inputAddress: inputAddressCoordinates,
-    roomsToCapacity: roomsToCapacity,
-    getMinPrice: getMinPrice,
     adFormChangeHandler: adFormChangeHandler,
-    getRequirementsTitle: getRequirementsTitle,
-    getRequirementsImage: getRequirementsImage,
     resetForm: resetForm
   };
 })();

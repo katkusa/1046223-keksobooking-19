@@ -14,72 +14,36 @@
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
-    window.pin.renderAll();
-    window.utils.removeAttribute(adFormFieldsets, 'disabled', 'disabled');
-    window.utils.removeAttribute(mapFiltersChildren, 'disabled', 'disabled');
-    window.form.roomsToCapacity();
-    window.form.getMinPrice();
-    window.form.getRequirementsTitle();
-    window.form.getRequirementsImage();
+    window.pin.render();
+    window.utils.getAttribute.remove(adFormFieldsets, 'disabled', 'disabled');
+    window.utils.getAttribute.remove(mapFiltersChildren, 'disabled', 'disabled');
     window.form.inputAddress(true);
     window.card.render();
     adForm.addEventListener('change', window.form.adFormChangeHandler, true);
+    cardActivate();
+  };
 
+  var cardActivate = function () {
     var allPins = mapPins.querySelectorAll('.map__pin');
     var activeCard = map.querySelector('.map__card');
 
-    var removeActiveCard = function () {
-      if (activeCard) {
-        activeCard.classList.remove('hidden');
-      }
-    };
-
-    var closeCardEvents = function () {
-      var closeButton = activeCard.querySelector('.popup__close');
-
-      var buttonHandler = function () {
-        activeCard.classList.add('hidden');
-        closeButton.removeEventListener('click', closeButtonClickHandler);
-        closeButton.removeEventListener('keydown', closeButtonKeydownHandler);
-        document.removeEventListener('keydown', documentKeydownHandler);
-      };
-
-      var closeButtonClickHandler = function () {
-        buttonHandler();
-      };
-
-      var closeButtonKeydownHandler = function (evt) {
-        if (evt.key === window.utils.keys.enter) {
-          buttonHandler();
-        }
-      };
-
-      var documentKeydownHandler = function (evt) {
-        if (evt.key === window.utils.keys.escape) {
-          buttonHandler();
-        }
-      };
-
-      closeButton.addEventListener('click', closeButtonClickHandler);
-      closeButton.addEventListener('keydown', closeButtonKeydownHandler);
-      document.addEventListener('keydown', documentKeydownHandler);
-    };
+    window.card.closeEvents();
 
     var allPinsClickHandler = function (index) {
       return function () {
-        removeActiveCard();
+        window.card.removeActive();
         window.card.fill(window.data.offers[index]);
         activeCard.classList.remove('hidden');
-        closeCardEvents();
+        window.card.closeEvents();
       };
     };
 
     var allPinsKeydownHandler = function (index) {
       return function (evt) {
         if (evt.key === window.utils.keys.enter) {
-          removeActiveCard();
+          window.card.removeActive();
           window.card.fill(window.data.offers[index]);
-          closeCardEvents();
+          window.card.closeEvents();
         }
       };
     };
@@ -90,22 +54,14 @@
     }
   };
 
-  var mapPinMainMousedownHandler = function (evt) {
-    if (evt.button === window.utils.keys.leftBtn) {
+  var mapPinMainHandler = function (evt) {
+    if (evt.button === window.utils.keys.leftBtn || evt.key === window.utils.keys.enter) {
       insertActiveMode();
-      mapPinMain.removeEventListener('mousedown', mapPinMainMousedownHandler);
-      mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
+      mapPinMain.removeEventListener('mousedown', mapPinMainHandler);
+      mapPinMain.removeEventListener('keydown', mapPinMainHandler);
     }
   };
 
-  var mapPinMainKeydownHandler = function (evt) {
-    if (evt.key === window.utils.keys.enter) {
-      insertActiveMode();
-      mapPinMain.removeEventListener('mousedown', mapPinMainMousedownHandler);
-      mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
-    }
-  };
-
-  mapPinMain.addEventListener('mousedown', mapPinMainMousedownHandler);
-  mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
+  mapPinMain.addEventListener('mousedown', mapPinMainHandler);
+  mapPinMain.addEventListener('keydown', mapPinMainHandler);
 })();

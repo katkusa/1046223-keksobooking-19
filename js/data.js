@@ -31,7 +31,7 @@
   ];
   var AVATAR_IMG = 'img/avatars/user0';
   var AVATAR_EXTENSION = '.png';
-  var TOTAL_AMOUNT_ARRAY = 8;
+  var TOTAL_AMOUNT_ARRAY = 5;
   var MAP_WIDTH = 1200;
   var PinSize = {
     WIDTH: 50,
@@ -71,26 +71,25 @@
   var offers = [];
 
   var getOffer = function () {
-
     return {
       author: {
-        avatar: AVATAR_IMG + window.utils.getRandomNumber(AvatarCounter.MIN, AvatarCounter.MAX) + AVATAR_EXTENSION,
+        avatar: AVATAR_IMG + window.utils.getRandom.number(AvatarCounter.MIN, AvatarCounter.MAX) + AVATAR_EXTENSION,
       },
       offer: {
-        title: APARTMENTS_TITLE[window.utils.getRandomNumber(0, APARTMENTS_TITLE.length)],
-        address: window.utils.getRandomNumber(0, AddressCounter.MAX1) + ', ' + window.utils.getRandomNumber(0, AddressCounter.MAX2),
-        price: window.utils.getRandomNumber(PriceCounter.MIN, PriceCounter.MAX),
-        type: HouseType[window.utils.getRandomElement(APARTMENTS_TYPE)],
-        rooms: window.utils.getRandomNumber(RoomsCounter.MIN, RoomsCounter.MAX),
-        guests: window.utils.getRandomNumber(GuestsCounter.MIN, GuestsCounter.MAX),
-        checkin: window.utils.getRandomElement(APARTMENTS_CHECKIN),
-        checkout: window.utils.getRandomElement(APARTMENTS_CHECKOUT),
-        features: window.utils.getRandomArray(APARTMENTS_FEATURES),
-        description: window.utils.getRandomElement(APARTMENTS_DESCRIPTION),
-        photos: window.utils.getRandomArray(OFFER_PHOTOS),
+        title: APARTMENTS_TITLE[window.utils.getRandom.number(0, APARTMENTS_TITLE.length)],
+        address: window.utils.getRandom.number(0, AddressCounter.MAX1) + ', ' + window.utils.getRandom.number(0, AddressCounter.MAX2),
+        price: window.utils.getRandom.number(PriceCounter.MIN, PriceCounter.MAX),
+        type: HouseType[window.utils.getRandom.element(APARTMENTS_TYPE)],
+        rooms: window.utils.getRandom.number(RoomsCounter.MIN, RoomsCounter.MAX),
+        guests: window.utils.getRandom.number(GuestsCounter.MIN, GuestsCounter.MAX),
+        checkin: window.utils.getRandom.element(APARTMENTS_CHECKIN),
+        checkout: window.utils.getRandom.element(APARTMENTS_CHECKOUT),
+        features: window.utils.getRandom.array(APARTMENTS_FEATURES),
+        description: window.utils.getRandom.element(APARTMENTS_DESCRIPTION),
+        photos: window.utils.getRandom.array(OFFER_PHOTOS),
         location: {
-          x: window.utils.getRandomNumber(0, MAP_WIDTH) - PinSize.WIDTH / 2 + 'px',
-          y: window.utils.getRandomNumber(CoordinateY.MIN, CoordinateY.MAX) - PinSize.HEIGHT + 'px'
+          x: window.utils.getRandom.number(0, MAP_WIDTH) - PinSize.WIDTH / 2 + 'px',
+          y: window.utils.getRandom.number(CoordinateY.MIN, CoordinateY.MAX) - PinSize.HEIGHT + 'px'
         }
       }
     };

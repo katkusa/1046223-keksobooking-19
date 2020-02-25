@@ -67,11 +67,41 @@
     cardCloned.classList.add('hidden');
     fragment.appendChild(cardCloned);
     map.insertBefore(fragment, mapFiltersContainer);
+  };
 
+  var closeCardEvents = function () {
+    var activeCard = map.querySelector('.map__card');
+    var closeButton = activeCard.querySelector('.popup__close');
+
+    var clickHandler = function () {
+      activeCard.classList.add('hidden');
+      closeButton.removeEventListener('click', clickHandler);
+      closeButton.removeEventListener('keydown', KeydownHandler);
+      document.removeEventListener('keydown', KeydownHandler);
+    };
+
+    var KeydownHandler = function (evt) {
+      if (evt.key === window.utils.keys.enter || evt.key === window.utils.keys.escape) {
+        clickHandler();
+      }
+    };
+
+    closeButton.addEventListener('click', clickHandler);
+    closeButton.addEventListener('keydown', KeydownHandler);
+    document.addEventListener('keydown', KeydownHandler);
+  };
+
+  var removeActiveCard = function () {
+    var activeCard = map.querySelector('.map__card');
+    if (activeCard) {
+      activeCard.classList.remove('hidden');
+    }
   };
 
   window.card = {
     render: renderCard,
-    fill: fillCard
+    fill: fillCard,
+    closeEvents: closeCardEvents,
+    removeActive: removeActiveCard
   };
 })();

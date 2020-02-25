@@ -27,7 +27,8 @@
     mapPins.appendChild(fragment);
   };
 
+
   window.pin = {
-    renderAll: renderAllPins
+    render: renderAllPins
   };
 })();
