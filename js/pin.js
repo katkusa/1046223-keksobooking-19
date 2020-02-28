@@ -1,10 +1,27 @@
 'use strict';
 (function () {
+  var MAIN_PIN_SIZE = 65;
+  var MAIN_PIN_SIZE_MARK = 22;
+
   var fragment = document.createDocumentFragment();
   var mapPinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
+  var mainPin = mapPins.querySelector('.map__pin--main');
+
+  var getPinCoordinate = function (isActive) {
+    var pinCoords = {
+      x: Math.floor(mainPin.offsetLeft + MAIN_PIN_SIZE / 2),
+      y: Math.floor(mainPin.offsetTop + MAIN_PIN_SIZE),
+    };
+
+    if (isActive) {
+      pinCoords.y += MAIN_PIN_SIZE_MARK;
+    }
+
+    return pinCoords;
+  };
 
   var renderPin = function (pinData) {
     var pinElement = mapPinTemplate.cloneNode(true);
@@ -29,6 +46,7 @@
 
 
   window.pin = {
-    render: renderAllPins
+    render: renderAllPins,
+    getCoordinate: getPinCoordinate
   };
 })();

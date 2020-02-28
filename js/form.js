@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  var MAIN_PIN_SIZE = 65;
-  var MAIN_PIN_SIZE_MARK = 22;
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
   var MAX_PRICE = 1000000;
@@ -21,8 +19,6 @@
   var adFormFieldsets = document.querySelectorAll('fieldset');
   var mapFilters = document.querySelector('.map__filters');
   var mapFiltersChildren = mapFilters.children;
-  var mapPins = document.querySelector('.map__pins');
-  var mapPinMain = mapPins.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
   var addressInput = adForm.querySelector('#address');
   var roomNumber = adForm.querySelector('#room_number');
@@ -40,20 +36,9 @@
   var features = adForm.querySelectorAll('.feature__checkbox');
 
   var inputAddressCoordinates = function (isActive) {
-    var x = parseInt(mapPinMain.style.left.replace('px', ''), 10);
-    var y = parseInt(mapPinMain.style.top.replace('px', ''), 10);
-    var pinX = MAIN_PIN_SIZE;
-    var pinY = MAIN_PIN_SIZE;
-    var result;
-
-    if (isActive) {
-      pinY = MAIN_PIN_SIZE + MAIN_PIN_SIZE_MARK;
-      result = addressInput.value = (x + pinX / 2) + ', ' + (y + pinY);
-      return result;
-    }
-
-    result = addressInput.value = (x + pinX / 2) + ', ' + (y + pinY / 2);
-    return result;
+    var x = window.pin.getCoordinate(isActive).x;
+    var y = window.pin.getCoordinate(isActive).y;
+    addressInput.value = x + ', ' + y;
   };
 
   inputAddressCoordinates();
