@@ -36,8 +36,8 @@
   var features = adForm.querySelectorAll('.feature__checkbox');
 
   var inputAddressCoordinates = function (isActive) {
-    var x = window.pin.getCoordinate(isActive).x;
-    var y = window.pin.getCoordinate(isActive).y;
+    var x = window.mainPin.getCoordinate(isActive).x;
+    var y = window.mainPin.getCoordinate(isActive).y;
     addressInput.value = x + ', ' + y;
   };
 
