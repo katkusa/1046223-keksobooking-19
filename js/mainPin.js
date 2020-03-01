@@ -1,16 +1,16 @@
 'use strict';
 (function () {
+  var mapPins = document.querySelector('.map__pins');
+  var mainPin = mapPins.querySelector('.map__pin--main');
+  var startCoordinate;
+  var dragged = false;
+
   var MapConfig = {
     TOP: 630,
     RIGHT: mapPins.clientWidth,
     BOTTOM: 130,
     LEFT: mapPins.clientLeft,
   };
-
-  var mapPins = document.querySelector('.map__pins');
-  var mainPin = mapPins.querySelector('.map__pin--main');
-  var startCoordinate;
-  var dragged = false;
 
   var getPinCoordinate = function (isActive) {
     var pinCoords = {
