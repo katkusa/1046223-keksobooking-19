@@ -35,15 +35,20 @@
 
   var renderPhotos = function (element, photos) {
     var cardPhotos = element.querySelector('.popup__photos');
-    var photoItemTemplate = cardPhotos.querySelector('img');
-    var allPhotoItemTemplate = cardPhotos.querySelectorAll('img');
+    var cardPhoto = cardPhotos.querySelectorAll('.popup__photo');
 
-    for (var k = 0; k < photos.length; k++) {
-      var photoItem = photoItemTemplate.cloneNode(true);
-      photoItem.src = photos[k];
-      cardPhotos.appendChild(photoItem);
+    cardPhoto[0].style = 'display: none';
+
+    for (var k = 1; k < cardPhoto.length; k++) {
+      cardPhotos.removeChild(cardPhoto[k]);
     }
-    allPhotoItemTemplate[0].remove();
+
+    for (var j = 0; j < photos.length; j++) {
+      var cardPhotoCloned = cardPhoto[0].cloneNode(1);
+      cardPhotos.appendChild(cardPhotoCloned);
+      cardPhotoCloned.style = '';
+      cardPhotoCloned.src = photos[j];
+    }
   };
 
   var fillCard = function (pinData) {
