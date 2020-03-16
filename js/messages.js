@@ -1,24 +1,58 @@
 'use strict';
 
 (function () {
-  var ErrorType = {
-    ERROR_5000: 5000
+  var showErrorMessage = function () {
+    var errorMessageTemplate = document.querySelector('#error').content;
+    var errorMessage = errorMessageTemplate.querySelector('.error');
+    var errorMessageCloned = errorMessage.cloneNode(true);
+    var closeButton = errorMessageCloned.querySelector('.error__button');
+    var main = document.querySelector('main');
+
+    main.appendChild(errorMessageCloned);
+
+    var clickHandler = function () {
+      errorMessageCloned.remove();
+      closeButton.removeEventListener('click', clickHandler);
+      document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('click', clickHandler);
+    };
+
+    var keydownHandler = function (evt) {
+      if (evt.key === window.utils.keys.esc) {
+        clickHandler();
+      }
+    };
+
+    closeButton.addEventListener('click', clickHandler);
+    document.addEventListener('keydown', keydownHandler);
+    document.addEventListener('click', clickHandler);
   };
 
-  var showErrorMessage = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'position: fixed; top: 0; left:0; right: 0; text-align: center; font-size: 20px; line-height: 30px; color: rgb(225, 168, 172); background-color: rgb(171, 36, 47); border-radius: 30px;';
-    node.style.top = '250px';
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+  var showSuccessMessage = function () {
+    var successMessageTemplate = document.querySelector('#success').content;
+    var successMessage = successMessageTemplate.querySelector('.success');
+    var successMessageCloned = successMessage.cloneNode(true);
 
-    var hideErrorMessage = function () {
-      node.remove();
+    document.body.appendChild(successMessageCloned);
+
+    var clickHandler = function () {
+      successMessageCloned.remove();
+      document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('click', clickHandler);
     };
-    setTimeout(hideErrorMessage, ErrorType.ERROR_5000);
+
+    var keydownHandler = function (evt) {
+      if (evt.key === window.utils.keys.esc) {
+        clickHandler();
+      }
+    };
+
+    document.addEventListener('keydown', keydownHandler);
+    document.addEventListener('click', clickHandler);
   };
 
   window.messages = {
-    showError: showErrorMessage
+    showError: showErrorMessage,
+    showSuccess: showSuccessMessage
   };
 })();

@@ -64,4 +64,27 @@
 
   mapPinMain.addEventListener('mousedown', mapPinMainHandler);
   mapPinMain.addEventListener('keydown', mapPinMainHandler);
+
+  var removeActiveMode = function () {
+    var card = map.querySelector('.map__card');
+
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+
+    window.pin.delete();
+    card.remove();
+    window.mainPin.relocate();
+
+    window.utils.getAttribute.set(adFormFieldsets, 'disabled', 'disabled');
+    window.utils.getAttribute.set(mapFiltersChildren, 'disabled', 'disabled');
+    window.form.resetForm();
+
+    mapPinMain.addEventListener('mousedown', mapPinMainHandler);
+    mapPinMain.addEventListener('keydown', mapPinMainHandler);
+    window.messages.showSuccess();
+  };
+
+  window.map = {
+    removeActiveMode: removeActiveMode,
+  };
 })();

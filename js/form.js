@@ -16,9 +16,6 @@
     PALACE: 10000
   };
 
-  var adFormFieldsets = document.querySelectorAll('fieldset');
-  var mapFilters = document.querySelector('.map__filters');
-  var mapFiltersChildren = mapFilters.children;
   var adForm = document.querySelector('.ad-form');
   var addressInput = adForm.querySelector('#address');
   var roomNumber = adForm.querySelector('#room_number');
@@ -131,8 +128,15 @@
     resetForm();
   });
 
-  window.utils.getAttribute.set(adFormFieldsets, 'disabled', 'disabled');
-  window.utils.getAttribute.set(mapFiltersChildren, 'disabled', 'disabled');
+  var succesHandler = function () {
+    window.map.removeActiveMode();
+    window.messages.showSuccess();
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    window.backend.push(new FormData(adForm), succesHandler, window.messages.showError);
+    evt.preventDefault();
+  });
 
   window.form = {
     inputAddress: inputAddressCoordinates,

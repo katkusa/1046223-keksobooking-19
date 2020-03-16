@@ -12,6 +12,11 @@
     LEFT: mapPins.clientLeft,
   };
 
+  var MainPinStartCoordinate = {
+    X: mainPin.offsetLeft,
+    Y: mainPin.offsetTop,
+  };
+
   var getPinCoordinate = function (isActive) {
     var pinCoords = {
       x: Math.floor(mainPin.offsetLeft + window.consts.mainPinSize / 2),
@@ -23,6 +28,11 @@
     }
 
     return pinCoords;
+  };
+
+  var relocateMainPin = function () {
+    mainPin.style.top = MainPinStartCoordinate.Y + 'px';
+    mainPin.style.left = MainPinStartCoordinate.X + 'px';
   };
 
   var onMouseMove = function (moveEvt) {
@@ -91,6 +101,7 @@
   addMainPinListener();
 
   window.mainPin = {
-    getCoordinate: getPinCoordinate
+    getCoordinate: getPinCoordinate,
+    relocate: relocateMainPin
   };
 })();

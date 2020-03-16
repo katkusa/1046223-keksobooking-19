@@ -45,7 +45,20 @@
     xhr.send();
   };
 
+  var push = function (data, onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = RESPONSE_TYPE;
+    xhr.timeout = TIMEOUT;
+
+    xhr.addEventListener('load', onSuccess);
+    xhr.addEventListener('error', onError);
+
+    xhr.open('POST', Url.PUSH);
+    xhr.send(data);
+  };
+
   window.backend = {
-    load: load
+    load: load,
+    push: push
   };
 })();
