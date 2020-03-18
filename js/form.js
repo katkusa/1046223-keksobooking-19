@@ -17,6 +17,9 @@
   };
 
   var adForm = document.querySelector('.ad-form');
+  var adFormFieldset = document.querySelectorAll('fieldset');
+  var mapFilters = document.querySelector('.map__filters');
+  var mapFiltersChildren = mapFilters.children;
   var addressInput = adForm.querySelector('#address');
   var roomNumber = adForm.querySelector('#room_number');
   var capacity = adForm.querySelector('#capacity');
@@ -38,7 +41,10 @@
     addressInput.value = x + ', ' + y;
   };
 
-  inputAddressCoordinates();
+  inputAddressCoordinates(false);
+
+  window.utils.getAttribute.set(adFormFieldset, 'disabled', 'disabled');
+  window.utils.getAttribute.set(mapFiltersChildren, 'disabled', 'disabled');
 
   var roomsToCapacity = function () {
     window.utils.getAttribute.set(capacityOptions, 'disabled', 'disabled');
@@ -105,8 +111,8 @@
     }
   };
 
-  var resetForm = function () {
-    inputAddressCoordinates();
+  var resetForm = function (isActive) {
+    inputAddressCoordinates(isActive);
     formTitle.value = '';
     type.value = 'flat';
     getMinPrice();
@@ -125,7 +131,8 @@
 
   resetBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
-    resetForm();
+    resetForm(true);
+    window.map.removeActiveMode();
   });
 
   var succesHandler = function () {
@@ -134,13 +141,13 @@
   };
 
   adForm.addEventListener('submit', function (evt) {
-    window.backend.push(new FormData(adForm), succesHandler, window.messages.showError);
+    window.backend.upload(new FormData(adForm), succesHandler, window.messages.showError);
     evt.preventDefault();
   });
 
   window.form = {
     inputAddress: inputAddressCoordinates,
     adFormChangeHandler: adFormChangeHandler,
-    resetForm: resetForm
+    reset: resetForm
   };
 })();

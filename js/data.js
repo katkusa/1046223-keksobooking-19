@@ -8,11 +8,11 @@
     for (var i = 0; i < TOTAL_AMOUNT_ARRAY; i++) {
       offersArray.push(data[i]);
     }
+    window.map.insertActiveMode();
   };
 
-  window.backend.load(window.messages.showError, loadHandler);
-
   window.data = {
-    offers: offersArray
+    offers: offersArray,
+    loadHandler: loadHandler
   };
 })();

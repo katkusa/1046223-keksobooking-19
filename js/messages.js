@@ -33,8 +33,6 @@
     var successMessage = successMessageTemplate.querySelector('.success');
     var successMessageCloned = successMessage.cloneNode(true);
 
-    document.body.appendChild(successMessageCloned);
-
     var clickHandler = function () {
       successMessageCloned.remove();
       document.removeEventListener('keydown', keydownHandler);
@@ -47,6 +45,7 @@
       }
     };
 
+    document.body.appendChild(successMessageCloned);
     document.addEventListener('keydown', keydownHandler);
     document.addEventListener('click', clickHandler);
   };

@@ -45,7 +45,7 @@
     xhr.send();
   };
 
-  var push = function (data, onSuccess, onError) {
+  var upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = RESPONSE_TYPE;
     xhr.timeout = TIMEOUT;
@@ -59,6 +59,6 @@
 
   window.backend = {
     load: load,
-    push: push
+    upload: upload
   };
 })();

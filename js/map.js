@@ -14,7 +14,7 @@
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
-    window.pin.render();
+    window.filter.housingType();
     window.utils.getAttribute.remove(adFormFieldsets, 'disabled', 'disabled');
     window.utils.getAttribute.remove(mapFiltersChildren, 'disabled', 'disabled');
     window.form.inputAddress(true);
@@ -32,7 +32,7 @@
     var allPinsClickHandler = function (index) {
       return function () {
         window.card.removeActive();
-        window.card.fill(window.data.offers[index]);
+        window.card.fill(window.filter.offers[index]);
         activeCard.classList.remove('hidden');
         window.card.closeEvents();
       };
@@ -42,13 +42,13 @@
       return function (evt) {
         if (evt.key === window.utils.keys.enter) {
           window.card.removeActive();
-          window.card.fill(window.data.offers[index]);
+          window.card.fill(window.filter.offers[index]);
           window.card.closeEvents();
         }
       };
     };
 
-    for (var s = 0; s < window.data.offers.length; s++) {
+    for (var s = 0; s < window.filter.offers.length; s++) {
       allPins[s + 1].addEventListener('click', allPinsClickHandler(s));
       allPins[s + 1].addEventListener('keydown', allPinsKeydownHandler(s));
     }
@@ -56,7 +56,7 @@
 
   var mapPinMainHandler = function (evt) {
     if (evt.button === window.utils.keys.leftBtn || evt.key === window.utils.keys.enter) {
-      insertActiveMode();
+      window.backend.load(window.messages.showError, window.data.loadHandler);
       mapPinMain.removeEventListener('mousedown', mapPinMainHandler);
       mapPinMain.removeEventListener('keydown', mapPinMainHandler);
     }
@@ -77,7 +77,8 @@
 
     window.utils.getAttribute.set(adFormFieldsets, 'disabled', 'disabled');
     window.utils.getAttribute.set(mapFiltersChildren, 'disabled', 'disabled');
-    window.form.resetForm();
+    window.form.reset();
+    window.filter.remove();
 
     mapPinMain.addEventListener('mousedown', mapPinMainHandler);
     mapPinMain.addEventListener('keydown', mapPinMainHandler);
@@ -85,6 +86,8 @@
   };
 
   window.map = {
+    insertActiveMode: insertActiveMode,
     removeActiveMode: removeActiveMode,
+    cardActivate: cardActivate
   };
 })();

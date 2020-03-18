@@ -103,10 +103,16 @@
     }
   };
 
+  var hideCard = function () {
+    var activeCard = map.querySelector('.map__card');
+    activeCard.classList.add('hidden');
+  };
+
   window.card = {
     render: renderCard,
     fill: fillCard,
     closeEvents: closeCardEvents,
-    removeActive: removeActiveCard
+    removeActive: removeActiveCard,
+    hide: hideCard
   };
 })();

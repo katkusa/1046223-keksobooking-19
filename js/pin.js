@@ -24,16 +24,16 @@
   };
 
   var renderAllPins = function () {
-    for (var k = 0; k < window.data.offers.length; k++) {
-      renderPin(window.data.offers[k]);
+    for (var k = 0; k < window.filter.offers.length; k++) {
+      renderPin(window.filter.offers[k]);
     }
 
     mapPins.appendChild(fragment);
   };
 
   var deleteAllPins = function () {
-    var allPins = mapPins.querySelectorAll('.map__pin');
-    for (var k = 1; k < allPins.length; k++) {
+    var allPins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var k = 0; k < allPins.length; k++) {
       allPins[k].remove();
     }
   };
